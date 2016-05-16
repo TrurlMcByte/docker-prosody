@@ -26,7 +26,6 @@ docker run -d  --restart=always --name $CON_NAME \
     -l port.5347=xmpp-proxy65 \
     -h $CON_NAME.$HOST \
     -e TZ=America/Los_Angeles \
-    -e PARENT_HOST=$HOST \
     -v /etc/timezone:/etc/timezone:ro \
     -v /srv/docker/prosody/etc:/etc/prosody:ro \
     -v /srv/docker/prosody/etc/hosts:/etc/hosts:ro \
@@ -38,7 +37,7 @@ docker run -d  --restart=always --name $CON_NAME \
 #    --log-opt syslog-facility=daemon \
 #    --log-opt tag="$CON_NAME" \
 
-#sleep 1s
+#sleep 3s
 #tail /var/log/messages
 #docker export -o $CON_NAME.tar $CON_NAME
 

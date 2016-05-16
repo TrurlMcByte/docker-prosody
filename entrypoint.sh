@@ -7,7 +7,7 @@ set -e
 #fi
 
 if [ "$LOCAL" -a  "$PASSWORD" -a "$DOMAIN" ] ; then
-#    sed -i "s/VirtualHost \"example.com\"/VirtualHost \"$DOMAIN\"/" /etc/prosody/prosody.cfg.lua
+    sed -i "s/VirtualHost \"example.com\"/VirtualHost \"$DOMAIN\"/" /etc/prosody/prosody.cfg.lua
     prosodyctl register $LOCAL $DOMAIN $PASSWORD
 fi
 

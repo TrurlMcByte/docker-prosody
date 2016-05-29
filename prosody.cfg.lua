@@ -209,9 +209,10 @@ Component "conference.example.com" "muc"
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
 Component "proxy.example.com" "proxy65"
-    proxy65_ports = { 5002 }
     proxy65_interfaces = { "*" }
     proxy65_acl = { "example.com" }
+
+proxy65_ports = { 5002 }
 
 -- Component "pubsub.example.com" "pubsub"
 --     modules_enabled = { "pubsub_hub"; "pubsub_feeds"; }

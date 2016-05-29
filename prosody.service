@@ -1,0 +1,26 @@
+[Unit]
+Description=prosody service
+Author=Trurl McByte
+After=network.target docker.service
+
+[Service]
+EnvironmentFile=/etc/environment
+Environment=IMG_NAME=trurlmcbyte/prosody:latest
+ExecStartPre=-/usr/bin/docker kill prosody
+ExecStartPre=-/usr/bin/docker rm -f prosody
+ExecStartPre=/usr/bin/docker pull $IMG_NAME
+ExecStart=/usr/bin/docker run --rm --name prosody \
+    -p 5222:5222 \
+    -p ${COREOS_PRIVATE_IPV4}:5347:5347 \
+    -p 5280:5280 \
+    -p 5269:5269 \
+    -p 5002:5002 \
+    -e LOCAL=trurl \
+    -e DOMAIN=do.mcbyte.net \
+    -e PASSWORD=pw2temp \
+    -v prosody-data:/var/lib/prosody \
+    $IMG_NAME
+ExecStop=/usr/bin/docker stop -t 1 prosody
+
+[X-Fleet]
+Conflicts=prosody.service

@@ -89,7 +89,8 @@ RUN apk add --no-cache --virtual .build-deps \
     && rm -rf /usr/local/src/* \
     && sed -i '1s/^/daemonize = false;\n/' /etc/prosody/prosody.cfg.lua \
     && sed -i 's/"prosody.log"/"\*console"/' /etc/prosody/prosody.cfg.lua \
-    && sed -i 's/"prosody.err"/"\*console"/' /etc/prosody/prosody.cfg.lua
+    && sed -i 's/"prosody.err"/"\*console"/' /etc/prosody/prosody.cfg.lua \
+    && chown -R prosody /etc/prosody
 
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh

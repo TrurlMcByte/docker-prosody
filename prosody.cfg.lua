@@ -186,11 +186,11 @@ log = {
 	-- "*console"; -- Log to the console, useful for debugging with daemonize=false
 }
 
+proxy65_ports = { 5002 }
+
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
 -- Settings under each VirtualHost entry apply *only* to that host.
-
-
 VirtualHost "example.com"
 
 ------ Components ------
@@ -212,7 +212,6 @@ Component "proxy.example.com" "proxy65"
     proxy65_interfaces = { "*" }
     proxy65_acl = { "example.com" }
 
-proxy65_ports = { 5002 }
 
 -- Component "pubsub.example.com" "pubsub"
 --     modules_enabled = { "pubsub_hub"; "pubsub_feeds"; }

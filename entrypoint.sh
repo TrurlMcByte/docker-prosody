@@ -6,11 +6,11 @@ set -e
 #    exit 0;
 #fi
 
-if [ "$LOCAL" -a  "$PASSWORD" -a "$DOMAIN" -a ! -f /etc/prosody/.local ] ; then
+if [ "$LOCAL" -a  "$PASSWORD" -a "$DOMAIN" -a ! -f /var/lib/prosody/.local ] ; then
     sed -i "s/example.com/${DOMAIN}/" /etc/prosody/prosody.cfg.lua
     sed -i "s/specialadminuser@/${LOCAL}@/" /etc/prosody/prosody.cfg.lua
     prosodyctl register $LOCAL $DOMAIN $PASSWORD
-    touch /etc/prosody/.local
+    touch /var/lib/prosody/.local
 fi
 
 exec "$@"

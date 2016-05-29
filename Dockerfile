@@ -99,5 +99,5 @@ RUN chmod 755 /entrypoint.sh && chown -R prosody /etc/prosody
 ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 80 443 5002 5222 5269 5347 5280 5281
 USER prosody
-ENV __FLUSH_LOG yes
+VOLUME /var/lib/prosody
 CMD ["prosody"]

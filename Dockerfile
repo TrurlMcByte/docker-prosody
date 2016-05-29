@@ -87,13 +87,15 @@ RUN apk add --no-cache --virtual .build-deps \
     && apk add --virtual .run-deps $runDeps \
     && apk del .build-deps \
     && rm -rf /usr/local/src/* \
-    && sed -i '1s/^/daemonize = false;\n/' /etc/prosody/prosody.cfg.lua \
-    && sed -i 's/"prosody.log"/"\*console"/' /etc/prosody/prosody.cfg.lua \
-    && sed -i 's/"prosody.err"/"\*console"/' /etc/prosody/prosody.cfg.lua \
-    && chown -R prosody /etc/prosody
+    && sed '1s/^/daemonize = false;\n/' /etc/prosody/prosody.cfg.lua > /etc/prosody/prosody.cfg.lua.sample \
+    && sed -i 's/"prosody.log"/"\*console"/' /etc/prosody/prosody.cfg.lua.sample \
+    && sed -i 's/"prosody.err"/"\*console"/' /etc/prosody/prosody.cfg.lua.sample
 
 COPY ./entrypoint.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
+COPY ./prosody.cfg.lua /etc/prosody/prosody.cfg.lua
+
+RUN chmod 755 /entrypoint.sh && chown -R prosody /etc/prosody
+
 ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 80 443 5002 5222 5269 5347 5280 5281
 USER prosody

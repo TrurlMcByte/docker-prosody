@@ -1,3 +1,8 @@
+-- XEP-0280: Message Carbons implementation for Prosody
+-- Copyright (C) 2015-2016 Kim Alvefur
+--
+-- This file is MIT/X11 licensed.
+
 local is_contact_subscribed = require"core.rostermanager".is_contact_subscribed;
 local jid_split = require"util.jid".split;
 local jid_bare = require"util.jid".bare;
@@ -7,7 +12,7 @@ local cache = require "util.cache";
 
 local cache_size = module:get_option_number("presence_cache_size", 100);
 
-local bare_cache = {}; -- [username NUL bare_jid] = { [full_jid] = timestamp, ... }
+local bare_cache = {}; -- [username NUL bare_jid] = { [full_jid] = { timestamp, ... } }
 
 local function on_evict(cache_key)
 	local bare_cache_key = cache_key:match("^%Z+%z[^/]+");
@@ -51,11 +56,14 @@ local function cache_hook(event)
 			return;
 		end
 
-		local stamp = datetime.datetime();
+		local presence_bits = {
+			stamp = datetime.datetime();
+			show = stanza:get_child_text("show");
+		};
 		if jids then
-			jids[contact_full] = stamp;
+			jids[contact_full] = presence_bits;
 		else
-			jids = { [contact_full] = stamp };
+			jids = { [contact_full] = presence_bits };
 			bare_cache[bare_cache_key] = jids;
 		end
 		presence_cache:set(cache_key, true);
@@ -76,9 +84,14 @@ local function answer_probe_from_cache(event)
 
 	local cached = bare_cache[bare_cache_key];
 	if not cached then return end
-	for jid, stamp in pairs(cached) do
+	for jid, presence_bits in pairs(cached) do
 		local presence = st.presence({ to = origin.full_jid, from = jid })
-			:tag("delay", { xmlns = "urn:xmpp:delay", from = module.host, stamp = stamp }):up();
+		if presence_bits.show then
+			presence:tag("show"):text(presence_bits.show):up();
+		end
+		if presence_bits.stamp then
+			presence:tag("delay", { xmlns = "urn:xmpp:delay", from = module.host, stamp = presence_bits.stamp }):up();
+		end
 		origin.send(presence);
 	end
 end

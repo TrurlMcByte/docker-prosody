@@ -227,7 +227,7 @@ function module.add_host(module)
 
 	module:hook("s2s-authenticated", function(event)
 		local session = event.session;
-		if session.dane and next(session.dane) ~= nil and not session.secure then
+		if session.dane and type(session.dane) == "table" and next(session.dane) ~= nil and not session.secure then
 			-- TLSA record but no TLS, not ok.
 			-- TODO Optional?
 			-- Bogus replies should trigger this path
@@ -374,8 +374,6 @@ end);
 if module:get_option_set("modules_enabled", {}):contains("admin_telnet") then
 	module:depends("admin_telnet"); -- Make sure the env is there
 	local def_env = module:shared("admin_telnet/env");
-
-	local sessions = module:shared("s2s/sessions");
 
 	local function annotate(session, line)
 		line = line or {};

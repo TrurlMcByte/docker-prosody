@@ -41,8 +41,8 @@ modules_enabled = {
 
 	-- Not essential, but recommended
 		"private"; -- Private XML storage (for room bookmarks, etc.)
-		-- "vcard"; -- Allow users to set vCards
-                "profile";
+		"vcard"; -- Allow users to set vCards
+        --        "profile"; -- not compatible wit 0.9
 	--      "require_otr"; -- OTR, "Off The Record"
 
 	-- These are commented by default as they have a performance impact
@@ -55,7 +55,7 @@ modules_enabled = {
 		"uptime"; -- Report how long server has been running
 		"time"; -- Let others know the time here on this server
 		"ping"; -- Replies to XMPP pings with pongs
-		-- "pep"; -- Enables users to publish their mood, activity, playing music and more
+		"pep"; -- Enables users to publish their mood, activity, playing music and more
 		"register"; -- Allow users to register on this server using a client and change passwords
 
 	-- Admin interfaces
@@ -99,11 +99,11 @@ pidfile = "/var/run/prosody/prosody.pid"
 
 -- Disable account creation by default, for security
 -- For more information see http://prosody.im/doc/creating_accounts
-allow_registration = false -- Allow users to register new accounts
--- registration_blacklist = { "127.0.0.1", "123.123.123.123" } -- 2 IP addresses blacklisted
-registration_whitelist = { "127.0.0.1" } -- No IP addresses whitelisted
+allow_registration = true -- Allow users to register new accounts
+registration_blacklist = { "123.123.123.123", "111.111.111.111" } -- 2 IP addresses blacklisted
+registration_whitelist = { "127.0.0.1" }
 whitelist_registration_only = false -- Anyone can register apart from blacklisted IP addresses
-min_seconds_between_registrations = 300 -- Clients must wait 5 minutes before they can register another account
+min_seconds_between_registrations = 600 -- Clients must wait 10 minutes before they can register another account
 
 bosh_ports = {
                  {

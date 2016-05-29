@@ -27,6 +27,11 @@ modules_enabled = {
 munin_node_name = "xmpp.example.com"
 ```
 
+You will also want to enable statistics collection by setting:
+
+```lua
+statistics_interval = 300 -- every 5 minutes, same as munin
+```
 
 ## Summary
 
@@ -63,8 +68,8 @@ Simply add `munin_node_name` surrounded by brackets to `/etc/munin/munin.conf`:
 
 ``` ini
 [xmpp.example.com]
-address = xmpp.example.com
-port = 4949
+address xmpp.example.com
+port 4949
 ```
 
 You can leave out `address` if it equal to the name in brackets, and

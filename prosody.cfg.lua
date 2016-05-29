@@ -68,7 +68,7 @@ modules_enabled = {
 
 	-- Other specific functionality
 		"posix"; -- POSIX functionality, sends server to background, enables syslog, etc.
-		"groups"; -- Shared roster support
+--		"groups"; -- Shared roster support
 		"announce"; -- Send announcement to all online users
 		"welcome"; -- Welcome users who register accounts
 		"watchregistrations"; -- Alert admins of registrations

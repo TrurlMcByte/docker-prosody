@@ -7,7 +7,7 @@ IMG_NAME="$IMG_BASE_NAME:$IMG_VER"
 
 #test -f ./build.log && mv -b ./build.log ./build.log.old
 #docker build -t $IMG_NAME . &> ./build.log || exit 1
-#docker pull $IMG_NAME
+docker pull $IMG_NAME
 
 
 docker stop -t 2 $CON_NAME
@@ -21,8 +21,10 @@ docker rm $CON_NAME
 #etcdctl set /skydns/net/mcbyte/home/jud '{"host":"prosody.home.mcbyte.net."}'
 #etcdctl set /skydns/net/mcbyte/home/users '{"host":"prosody.home.mcbyte.net."}'
 
+#    -h $CON_NAME.$HOST \
 
 docker run -d  --restart=always --name $CON_NAME \
+    --log-opt max-size=5m \
     -p 5222:5222 \
     -l port.5222=xmpp-c2s \
     -p 5280:5280 \
@@ -35,7 +37,6 @@ docker run -d  --restart=always --name $CON_NAME \
     -l port.5269=xmpp-server \
     -p 5002:5002 \
     -l port.5347=xmpp-proxy65 \
-    -h $CON_NAME.$HOST \
     -e TZ=Asia/Jerusalem \
     -v /srv/docker/prosody/etc:/etc/prosody:ro \
     -v /srv/docker/prosody/lib:/var/lib/prosody:rw \

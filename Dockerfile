@@ -18,7 +18,9 @@ RUN apk add --no-cache \
         lua-expat \
         lua-filesystem \
         lua-sec \
-        lua-socket
+        lua-socket \
+        curl \
+        xz
 
 RUN apk add --no-cache --virtual .build-deps \
         gcc \

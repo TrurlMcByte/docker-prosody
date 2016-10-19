@@ -5,9 +5,10 @@ IMG_VER=0.9_hg
 IMG_BASE_NAME="trurlmcbyte/prosody"
 IMG_NAME="$IMG_BASE_NAME:$IMG_VER"
 
-#test -f ./build.log && mv -b ./build.log ./build.log.old
-#docker build -t $IMG_NAME . &> ./build.log || exit 1
-docker pull $IMG_NAME
+test -f ./build.log && mv -b ./build.log ./build.log.old
+docker build -t $IMG_NAME . &> ./build.log || exit 1
+exit 
+#docker pull $IMG_NAME
 
 
 docker stop -t 2 $CON_NAME
